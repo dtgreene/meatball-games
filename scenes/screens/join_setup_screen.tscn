@@ -1,0 +1,96 @@
+[gd_scene load_steps=3 format=3 uid="uid://21dde0nspyxu"]
+
+[ext_resource type="Script" path="res://scripts/screens/join_setup_screen.gd" id="1_xujh0"]
+[ext_resource type="Script" path="res://scripts/buttons/3d_button.gd" id="2_qp0ck"]
+
+[node name="JoinSetupScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xujh0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="IPInput" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(142, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer/IPInput"]
+layout_mode = 2
+text = "IP"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/IPInput"]
+layout_mode = 2
+max_length = 16
+caret_blink = true
+
+[node name="PortInput" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(142, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer/PortInput"]
+layout_mode = 2
+text = "Port"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer/PortInput"]
+layout_mode = 2
+max_length = 16
+caret_blink = true
+
+[node name="SetupErrorLabel" type="Label" parent="VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890196, 0.396078, 0.443137, 1)
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Back" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+focus_mode = 2
+script = ExtResource("2_qp0ck")
+text = "BACK"
+width = 142
+variant_index = 1
+
+[node name="Join" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+focus_mode = 2
+script = ExtResource("2_qp0ck")
+text = "JOIN"
+width = 142
+
+[node name="JoinErrorLabel" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890196, 0.396078, 0.443137, 1)
+autowrap_mode = 2
+
+[node name="JoinTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true

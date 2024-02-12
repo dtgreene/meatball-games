@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cg135wqaino7u"]
+
+[ext_resource type="Shader" path="res://shaders/eyes.gdshader" id="1_u4gfv"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bm5cw"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nxkbd"]
+width = 128
+height = 128
+seamless = true
+noise = SubResource("FastNoiseLite_bm5cw")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_u4gfv")
+shader_parameter/look_noise = SubResource("NoiseTexture2D_nxkbd")

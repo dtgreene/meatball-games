@@ -1,0 +1,163 @@
+[gd_scene load_steps=5 format=3 uid="uid://c344ev13nsug7"]
+
+[ext_resource type="Script" path="res://scripts/main_start.gd" id="1_apt1i"]
+[ext_resource type="Script" path="res://scripts/buttons/3d_button.gd" id="2_q0b6c"]
+[ext_resource type="Script" path="res://scripts/screens/start_screen.gd" id="2_q4pdx"]
+[ext_resource type="Script" path="res://scripts/buttons/plain_button.gd" id="3_4sqya"]
+
+[node name="MainStart" type="Node3D"]
+script = ExtResource("1_apt1i")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0627451, 0.0823529, 1)
+
+[node name="StartScreen" type="Control" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_q4pdx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/StartScreen"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_right = 54.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NameInput" type="MarginContainer" parent="GUI/StartScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/StartScreen/VBoxContainer/NameInput"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUI/StartScreen/VBoxContainer/NameInput/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="GUI/StartScreen/VBoxContainer/NameInput/VBoxContainer"]
+layout_mode = 2
+max_length = 16
+caret_blink = true
+
+[node name="ErrorLabel" type="Label" parent="GUI/StartScreen/VBoxContainer/NameInput/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890196, 0.396078, 0.443137, 1)
+
+[node name="Panel" type="ColorRect" parent="GUI/StartScreen/VBoxContainer"]
+layout_mode = 2
+color = Color(0.101961, 0.129412, 0.152941, 1)
+
+[node name="Host" type="Control" parent="GUI/StartScreen/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("2_q0b6c")
+text = "HOST"
+
+[node name="Join" type="Control" parent="GUI/StartScreen/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("2_q0b6c")
+text = "JOIN"
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/StartScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 32
+
+[node name="Exit" type="Control" parent="GUI/StartScreen/VBoxContainer/MarginContainer"]
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("3_4sqya")
+text = "EXIT"
+
+[node name="LobbyScreen" type="Control" parent="GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/LobbyScreen"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="GUI/LobbyScreen/VBoxContainer"]
+layout_mode = 2
+text = "Players:"
+
+[node name="PlayerList" type="MarginContainer" parent="GUI/LobbyScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 16
+
+[node name="ColorRect" type="ColorRect" parent="GUI/LobbyScreen/VBoxContainer/PlayerList"]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+color = Color(0.101961, 0.133333, 0.164706, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/LobbyScreen/VBoxContainer/PlayerList"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GUI/LobbyScreen/VBoxContainer/PlayerList/MarginContainer"]
+custom_minimum_size = Vector2(268, 118)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Control" type="Control" parent="GUI/LobbyScreen/VBoxContainer/PlayerList/MarginContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUI/LobbyScreen/VBoxContainer/PlayerList/MarginContainer/ScrollContainer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 21.0
+text = "Bepis"
+
+[node name="Start" type="Control" parent="GUI/LobbyScreen/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("2_q0b6c")
+text = "START"
+
+[node name="Back" type="Control" parent="GUI/LobbyScreen/VBoxContainer"]
+layout_mode = 2
+focus_mode = 2
+script = ExtResource("3_4sqya")
+text = "BACK"
+
+[connection signal="button_up" from="GUI/LobbyScreen/VBoxContainer/Start" to="." method="_on_join_button_up"]
+[connection signal="button_up" from="GUI/LobbyScreen/VBoxContainer/Back" to="." method="_on_exit_button_up"]

@@ -1,0 +1,59 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://bncdilarg3thf"
+path="res://.godot/imported/tent.glb-500c3c9dad0489ff6a40b77c67d73992.scn"
+
+[deps]
+
+source_file="res://models/tent.glb"
+dest_files=["res://.godot/imported/tent.glb-500c3c9dad0489ff6a40b77c67d73992.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+meshes/ensure_tangents=true
+meshes/generate_lods=false
+meshes/create_shadow_meshes=true
+meshes/light_baking=2
+meshes/lightmap_texel_size=0.05
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={
+"materials": {
+"TentFloor": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/dark_trim.tres"
+},
+"TentWall1": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/tent_1.tres"
+},
+"TentWall2": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/tent_2.tres"
+},
+"Trim": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/dark_trim.tres"
+}
+},
+"nodes": {
+"PATH:Cylinder": {
+"generate/physics": true,
+"physics/shape_type": 2
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

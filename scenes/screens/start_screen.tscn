@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctxwkpk2fmyoq"]
+
+[ext_resource type="Script" path="res://scripts/screens/start_screen.gd" id="1_v1jmd"]
+[ext_resource type="FontFile" uid="uid://my80xfg5t7tb" path="res://fonts/ProtestStrike-Regular.ttf" id="2_f7qn5"]
+[ext_resource type="Script" path="res://scripts/buttons/3d_button.gd" id="2_wnovj"]
+[ext_resource type="Script" path="res://scripts/buttons/plain_button.gd" id="3_jh7r5"]
+
+[node name="StartScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v1jmd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_f7qn5")
+theme_override_font_sizes/font_size = 128
+text = "MEATBALL GAMES"
+horizontal_alignment = 1
+
+[node name="NameInput" type="VBoxContainer" parent="VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/NameInput"]
+layout_mode = 2
+text = "Name"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/NameInput"]
+layout_mode = 2
+max_length = 16
+caret_blink = true
+
+[node name="ErrorLabel" type="Label" parent="VBoxContainer/VBoxContainer/NameInput"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.890196, 0.396078, 0.443137, 1)
+autowrap_mode = 2
+
+[node name="Host" type="Control" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("2_wnovj")
+text = "HOST"
+
+[node name="Join" type="Control" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("2_wnovj")
+text = "JOIN"
+
+[node name="Exit" type="Control" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("3_jh7r5")
+text = "EXIT"

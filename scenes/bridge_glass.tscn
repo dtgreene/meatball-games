@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://cap4ldt7vmuiv"]
+
+[ext_resource type="Script" path="res://scripts/bridge_glass.gd" id="1_t52nk"]
+[ext_resource type="BoxMesh" uid="uid://bv34r4f782027" path="res://meshes/bridge_glass.tres" id="2_bw14b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mh0cy"]
+size = Vector3(1.48, 0.02, 0.98)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cot7b"]
+size = Vector3(1.5, 0.02, 1)
+
+[node name="BridgeGlass" type="Node3D"]
+script = ExtResource("1_t52nk")
+
+[node name="Area3D" type="Area3D" parent="."]
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+shape = SubResource("BoxShape3D_mh0cy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_cot7b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_bw14b")
+skeleton = NodePath("../..")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

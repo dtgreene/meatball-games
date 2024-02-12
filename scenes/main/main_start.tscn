@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://c344ev13nsug7"]
+
+[ext_resource type="Script" path="res://scripts/main_start.gd" id="1_3uyjb"]
+[ext_resource type="PackedScene" uid="uid://ctxwkpk2fmyoq" path="res://scenes/screens/start_screen.tscn" id="2_b12t6"]
+[ext_resource type="Texture2D" uid="uid://cmncg5ry121ly" path="res://textures/background.png" id="3_s08t8"]
+
+[node name="MainStart" type="Node3D"]
+script = ExtResource("1_3uyjb")
+
+[node name="GUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -216.0
+offset_right = 384.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_s08t8")
+stretch_mode = 6
+
+[node name="Background" type="ColorRect" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="StartScreen" parent="GUI" instance=ExtResource("2_b12t6")]
+layout_mode = 1

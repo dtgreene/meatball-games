@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0y8ehpry4avg"]
+
+[ext_resource type="Script" path="res://scripts/peer_player.gd" id="1_r68sr"]
+[ext_resource type="PackedScene" uid="uid://cgcspg03hlc4f" path="res://scenes/player_character.tscn" id="2_bcvwe"]
+[ext_resource type="AudioStream" uid="uid://fbyk4kh3w14s" path="res://sounds/death.wav" id="3_71imt"]
+[ext_resource type="AudioStream" uid="uid://bp586s7o8304b" path="res://sounds/wilhelm.wav" id="4_sftqo"]
+
+[sub_resource type="SystemFont" id="SystemFont_r8rw8"]
+font_weight = 500
+
+[node name="PeerPlayer" type="Node3D"]
+visible = false
+script = ExtResource("1_r68sr")
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_bcvwe")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.9, 0)
+
+[node name="NameLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+billboard = 1
+font = SubResource("SystemFont_r8rw8")
+outline_size = 0
+
+[node name="FloorRayCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+target_position = Vector3(0, -0.2, 0)
+collision_mask = 5
+
+[node name="DeathPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_71imt")
+volume_db = -5.0
+
+[node name="FallingPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_sftqo")
+volume_db = -20.0

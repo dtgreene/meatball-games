@@ -1,0 +1,6 @@
+StandardMaterial3D
+ShaderMaterial
+FontVariation
+AnimationNodeBlendTree
+FontFile
+Resource

@@ -1,0 +1,45 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://bp2yilh5bfw4s"
+path="res://.godot/imported/bridge.glb-4478c539d3d97723b0749987314448dd.scn"
+
+[deps]
+
+source_file="res://models/bridge.glb"
+dest_files=["res://.godot/imported/bridge.glb-4478c539d3d97723b0749987314448dd.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+meshes/ensure_tangents=true
+meshes/generate_lods=false
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={
+"materials": {
+"Bridge": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/bridge.tres"
+},
+"TentLight": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/tent_lights.tres"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

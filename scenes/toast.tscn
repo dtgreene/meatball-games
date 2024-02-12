@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkcq6r4k2i11w"]
+
+[ext_resource type="Script" path="res://scripts/toasts/toast.gd" id="1_dpj07"]
+
+[node name="Toast" type="Control"]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_bottom = 128.0
+grow_horizontal = 2
+script = ExtResource("1_dpj07")
+
+[node name="IdleTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true

@@ -1,0 +1,363 @@
+[gd_scene load_steps=18 format=3 uid="uid://cgw2fhs75lo35"]
+
+[ext_resource type="Script" path="res://scripts/gui_game.gd" id="1_uhlk2"]
+[ext_resource type="PackedScene" uid="uid://bncdilarg3thf" path="res://models/tent.glb" id="2_had51"]
+[ext_resource type="Script" path="res://scripts/fps_overlay.gd" id="2_hbp65"]
+[ext_resource type="Script" path="res://scripts/level_1.gd" id="3_61pwn"]
+[ext_resource type="PackedScene" uid="uid://bp2yilh5bfw4s" path="res://models/bridge.glb" id="3_wca80"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="5_8rnia"]
+[ext_resource type="PackedScene" uid="uid://crustwgd4hwxt" path="res://models/tent_lights.glb" id="5_mhg4g"]
+[ext_resource type="PackedScene" uid="uid://bn3hg7sgy41sh" path="res://scenes/bridge_glass_pieces.tscn" id="7_cihre"]
+
+[sub_resource type="Gradient" id="Gradient_ka5pm"]
+offsets = PackedFloat32Array(0.0588235, 0.839572)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pnkfx"]
+gradient = SubResource("Gradient_ka5pm")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mgyq4"]
+sky_top_color = Color(0.215686, 0.286275, 0.415686, 1)
+sky_horizon_color = Color(0.501961, 0.690196, 0.745098, 1)
+sky_energy_multiplier = 0.2
+ground_bottom_color = Color(0.0784314, 0.12549, 0.203922, 1)
+ground_horizon_color = Color(0.317647, 0.419608, 0.505882, 1)
+
+[sub_resource type="Sky" id="Sky_tft5p"]
+sky_material = SubResource("ProceduralSkyMaterial_mgyq4")
+
+[sub_resource type="Environment" id="Environment_cqov1"]
+background_mode = 2
+sky = SubResource("Sky_tft5p")
+tonemap_mode = 2
+ssr_enabled = true
+ssao_enabled = true
+ssao_radius = 2.0
+ssao_intensity = 3.0
+ssao_power = 3.0
+glow_enabled = true
+glow_strength = 0.6
+glow_bloom = 0.1
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_color_correction = SubResource("GradientTexture1D_pnkfx")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gdmm8"]
+size = Vector3(13, 29, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sdglc"]
+size = Vector3(40, 1, 40)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s2yl0"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j5i2u"]
+radius = 0.3
+height = 1.8
+
+[node name="Main" type="Node3D"]
+
+[node name="GUIStart" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUIStart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0901961, 0.105882, 0.12549, 1)
+
+[node name="NameInput" type="VBoxContainer" parent="GUIStart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUIStart/NameInput"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIStart/NameInput/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIStart/NameInput/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUIStart/NameInput/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="Username" type="LineEdit" parent="GUIStart/NameInput/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+max_length = 16
+
+[node name="NextButton" type="Button" parent="GUIStart/NameInput/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"BlueButton"
+text = "NEXT"
+
+[node name="StartMenu" type="Control" parent="GUIStart"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUIStart/StartMenu"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+color = Color(0.145098, 0.160784, 0.180392, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIStart/StartMenu/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="GUIStart/StartMenu/ColorRect/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_right = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIStart/StartMenu/ColorRect/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="HostButton" type="Button" parent="GUIStart/StartMenu/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"BlueButton"
+text = "HOST"
+alignment = 0
+
+[node name="JoinButton" type="Button" parent="GUIStart/StartMenu/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"BlueButton"
+text = "JOIN"
+alignment = 0
+
+[node name="ExitButton" type="Button" parent="GUIStart/StartMenu/ColorRect/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"BlueButton"
+text = "EXIT"
+alignment = 0
+
+[node name="GUIGame" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_uhlk2")
+
+[node name="FPSOverlay" type="Control" parent="GUIGame"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_hbp65")
+
+[node name="Label" type="Label" parent="GUIGame/FPSOverlay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "fps: 0"
+
+[node name="FPSTimer" type="Timer" parent="GUIGame/FPSOverlay"]
+wait_time = 0.5
+autostart = true
+
+[node name="PauseMenu" type="Control" parent="GUIGame"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUIGame/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.117647, 0.117647, 0.117647, 0.356863)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIGame/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUIGame/PauseMenu/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="GUIGame/PauseMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "VSync"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUIGame/PauseMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="VSync" type="CheckButton" parent="GUIGame/PauseMenu/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="MarginContainer" type="MarginContainer" parent="GUIGame/PauseMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUIGame/PauseMenu/VBoxContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Quit" type="Button" parent="GUIGame/PauseMenu/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[node name="Level1" type="Node3D" parent="."]
+script = ExtResource("3_61pwn")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Level1"]
+environment = SubResource("Environment_cqov1")
+
+[node name="SpotLight3D1" type="SpotLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10, 10, 0)
+light_energy = 4.0
+spot_range = 20.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 10, 0)
+light_energy = 4.0
+spot_range = 20.0
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+light_energy = 4.0
+spot_range = 20.0
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5, 10, 0)
+light_energy = 4.0
+spot_range = 20.0
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10, 10, 0)
+light_energy = 4.0
+spot_range = 20.0
+
+[node name="Tent" parent="Level1" instance=ExtResource("2_had51")]
+
+[node name="TentLights" parent="Level1" instance=ExtResource("5_mhg4g")]
+
+[node name="Bridge1" parent="Level1" instance=ExtResource("3_wca80")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="Bridge2" parent="Level1" instance=ExtResource("3_wca80")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1)
+
+[node name="BridgeGlass" type="Node3D" parent="Level1"]
+
+[node name="OmniLight3D1" type="OmniLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 12, 0)
+light_energy = 0.4
+omni_range = 40.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Level1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 12, 0)
+light_energy = 0.4
+omni_range = 40.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level1"]
+
+[node name="CollisionShape3D1" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 16)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 11.31, -2.5, 11.31)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16, -2.5, 0)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 11.31, -2.5, -11.31)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, -16)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -11.31, -2.5, -11.31)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -16, -2.5, 0)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -11.31, -2.5, 11.31)
+shape = SubResource("BoxShape3D_gdmm8")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="Level1/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -17, 0)
+shape = SubResource("BoxShape3D_sdglc")
+
+[node name="GlassPieces" parent="Level1" instance=ExtResource("7_cihre")]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.13318, 1.15059)
+collision_mask = 3
+script = ExtResource("5_8rnia")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_s2yl0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_j5i2u")
+skeleton = NodePath("")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+
+[connection signal="toggled" from="GUIGame/PauseMenu/VBoxContainer/HBoxContainer/HBoxContainer/VSync" to="GUIGame" method="_on_v_sync_toggled"]
+[connection signal="pressed" from="GUIGame/PauseMenu/VBoxContainer/MarginContainer/HBoxContainer/Quit" to="GUIGame" method="_on_quit_pressed"]

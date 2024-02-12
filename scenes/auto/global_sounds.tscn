@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cursgli5c30qv"]
+
+[ext_resource type="Script" path="res://scripts/auto/global_sounds.gd" id="1_jvf7w"]
+[ext_resource type="AudioStream" uid="uid://qa7745muvxcn" path="res://sounds/button_click_1.wav" id="2_fm8jc"]
+
+[node name="GlobalSounds" type="Node"]
+script = ExtResource("1_jvf7w")
+
+[node name="ClickPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_fm8jc")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0

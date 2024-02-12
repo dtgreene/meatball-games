@@ -1,0 +1,500 @@
+[gd_scene load_steps=20 format=3 uid="uid://cgw2fhs75lo35"]
+
+[ext_resource type="Script" path="res://scripts/main_game.gd" id="1_rhnqk"]
+[ext_resource type="Script" path="res://scripts/gui_game.gd" id="2_haiqq"]
+[ext_resource type="Script" path="res://scripts/buttons/3d_button.gd" id="4_egfw5"]
+[ext_resource type="PackedScene" uid="uid://bncdilarg3thf" path="res://models/tent.glb" id="6_wylq5"]
+[ext_resource type="PackedScene" uid="uid://crustwgd4hwxt" path="res://models/tent_lights.glb" id="7_mxvtl"]
+[ext_resource type="PackedScene" uid="uid://cc2evick5rh57" path="res://models/tent_wall_lights.glb" id="8_ly7qm"]
+[ext_resource type="PackedScene" uid="uid://bp2yilh5bfw4s" path="res://models/bridge.glb" id="9_7iv2v"]
+[ext_resource type="PackedScene" uid="uid://bp1tchkcxf8bf" path="res://models/double_doors.glb" id="9_mjh2s"]
+[ext_resource type="PackedScene" uid="uid://ct6srnuhai7p2" path="res://models/column_lights.glb" id="10_f05sw"]
+[ext_resource type="PackedScene" uid="uid://c64uvrdajdc0i" path="res://models/room.glb" id="10_vkgoy"]
+[ext_resource type="PackedScene" uid="uid://dqfe8lwn1ddb" path="res://models/bridge_platform.glb" id="11_pgkm4"]
+[ext_resource type="PackedScene" uid="uid://chfi1biju5cmx" path="res://models/chandelier.glb" id="11_vni3m"]
+[ext_resource type="Material" uid="uid://qfp5d0s2gnu2" path="res://materials/dust.tres" id="13_5udop"]
+
+[sub_resource type="Environment" id="Environment_cqov1"]
+background_mode = 2
+ambient_light_color = Color(0.0509804, 0.0509804, 0.0588235, 1)
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 2
+tonemap_exposure = 1.2
+tonemap_white = 2.0
+ssr_enabled = true
+ssao_enabled = true
+ssao_power = 2.0
+glow_enabled = true
+glow_strength = 0.5
+glow_bloom = 0.1
+glow_blend_mode = 1
+adjustment_enabled = true
+adjustment_brightness = 2.3
+adjustment_contrast = 1.2
+adjustment_saturation = 1.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pskwv"]
+size = Vector3(35, 4, 35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l4ffg"]
+size = Vector3(3, 1, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nmjyc"]
+size = Vector3(35, 4, 35)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8tqeh"]
+emission_shape = 1
+emission_sphere_radius = 16.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 0.2
+initial_velocity_max = 0.6
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_0umau"]
+material = ExtResource("13_5udop")
+size = Vector2(0.1, 0.1)
+
+[node name="MainGame" type="Node3D"]
+script = ExtResource("1_rhnqk")
+
+[node name="GUIGame" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_haiqq")
+
+[node name="ServerMessages" type="Control" parent="GUIGame"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="GUIGame/ServerMessages"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Label" type="Label" parent="GUIGame/ServerMessages/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 16
+max_lines_visible = 5
+
+[node name="MessagesTimer" type="Timer" parent="GUIGame/ServerMessages"]
+wait_time = 5.0
+one_shot = true
+
+[node name="WinnerText" type="Control" parent="GUIGame"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIGame/WinnerText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="GUIGame/WinnerText/VBoxContainer"]
+layout_mode = 2
+text = "WINNER"
+horizontal_alignment = 1
+
+[node name="PlayerName" type="Label" parent="GUIGame/WinnerText/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="WinnerTimer" type="Timer" parent="GUIGame/WinnerText"]
+
+[node name="Scoreboard" type="Control" parent="GUIGame"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUIGame/Scoreboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIGame/Scoreboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="GUIGame/Scoreboard/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Players"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="PlayerList" type="VBoxContainer" parent="GUIGame/Scoreboard/VBoxContainer"]
+layout_mode = 2
+
+[node name="LoadingText" type="Control" parent="GUIGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUIGame/LoadingText"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0627451, 0.0823529, 1)
+
+[node name="Label" type="Label" parent="GUIGame/LoadingText"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.0
+offset_top = -15.5
+offset_right = 66.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "LOADING..."
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="Control" parent="GUIGame"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GUIGame/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="Main" type="Control" parent="GUIGame/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIGame/PauseMenu/Main"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_right = 152.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Resume" type="Control" parent="GUIGame/PauseMenu/Main/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("4_egfw5")
+text = "RESUME"
+width = 200
+
+[node name="Options" type="Control" parent="GUIGame/PauseMenu/Main/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("4_egfw5")
+text = "OPTIONS"
+width = 200
+
+[node name="Reset" type="Control" parent="GUIGame/PauseMenu/Main/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("4_egfw5")
+text = "RESET GAME"
+width = 200
+
+[node name="Leave" type="Control" parent="GUIGame/PauseMenu/Main/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("4_egfw5")
+text = "LEAVE"
+width = 200
+variant_index = 1
+
+[node name="Quit" type="Control" parent="GUIGame/PauseMenu/Main/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("4_egfw5")
+text = "QUIT"
+width = 200
+variant_index = 1
+
+[node name="Options" type="Control" parent="GUIGame/PauseMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIGame/PauseMenu/Options"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_right = 152.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="GUIGame/PauseMenu/Options/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MusicVolume" type="VBoxContainer" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
+layout_mode = 2
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="MouseSensitivity" type="VBoxContainer" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MouseSensitivity"]
+layout_mode = 2
+text = "Mouse Sensitivity"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MouseSensitivity"]
+layout_mode = 2
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="Fullscreen" type="HBoxContainer" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/Fullscreen"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="CheckButton" type="CheckButton" parent="GUIGame/PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/Fullscreen"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Back" type="Control" parent="GUIGame/PauseMenu/Options/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 2
+script = ExtResource("4_egfw5")
+text = "BACK"
+width = 200
+variant_index = 1
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Level"]
+environment = SubResource("Environment_cqov1")
+
+[node name="DefaultCamera" type="Camera3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 14, 5)
+fov = 50.0
+
+[node name="SpotLight1" type="SpotLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -10, 10, 0)
+light_color = Color(0.823529, 0.784314, 0.768627, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 20.0
+
+[node name="SpotLight2" type="SpotLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 10, 0)
+light_color = Color(0.823529, 0.784314, 0.768627, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 20.0
+
+[node name="SpotLight3" type="SpotLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+light_color = Color(0.823529, 0.784314, 0.768627, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 20.0
+
+[node name="SpotLight4" type="SpotLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5, 10, 0)
+light_color = Color(0.823529, 0.784314, 0.768627, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 20.0
+
+[node name="SpotLight5" type="SpotLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 10, 10, 0)
+light_color = Color(0.823529, 0.784314, 0.768627, 1)
+light_energy = 3.0
+shadow_enabled = true
+spot_range = 20.0
+
+[node name="Tent" parent="Level" instance=ExtResource("6_wylq5")]
+
+[node name="TentLights" parent="Level" instance=ExtResource("7_mxvtl")]
+
+[node name="TentWallLights" parent="Level" instance=ExtResource("8_ly7qm")]
+
+[node name="Bridge1" parent="Level" instance=ExtResource("9_7iv2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="Bridge2" parent="Level" instance=ExtResource("9_7iv2v")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1)
+
+[node name="Room1" parent="Level" instance=ExtResource("10_vkgoy")]
+
+[node name="Room2" parent="Level" instance=ExtResource("10_vkgoy")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="DoubleDoors1" parent="Level" instance=ExtResource("9_mjh2s")]
+
+[node name="DoubleDoors2" parent="Level" instance=ExtResource("9_mjh2s")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="ColumnLights1" parent="Level" instance=ExtResource("10_f05sw")]
+
+[node name="ColumnLights2" parent="Level" instance=ExtResource("10_f05sw")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Chandelier" parent="Level" instance=ExtResource("11_vni3m")]
+
+[node name="BridgePlatform1" parent="Level" instance=ExtResource("11_pgkm4")]
+
+[node name="BridgePlatform2" parent="Level" instance=ExtResource("11_pgkm4")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="BridgeGlass" type="Node3D" parent="Level"]
+
+[node name="OmniLight1" type="OmniLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 12, 0)
+light_energy = 0.25
+omni_range = 40.0
+
+[node name="OmniLight2" type="OmniLight3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 12, 0)
+light_energy = 0.25
+omni_range = 40.0
+
+[node name="SpawnPosition1" type="Node3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1.5, -1.4)
+
+[node name="SpawnPosition2" type="Node3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1.5, 0)
+
+[node name="SpawnPosition3" type="Node3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 1.5, 1.4)
+
+[node name="KillArea" type="Area3D" parent="Level"]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/KillArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 0)
+shape = SubResource("BoxShape3D_pskwv")
+
+[node name="WinArea" type="Area3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/WinArea"]
+shape = SubResource("BoxShape3D_l4ffg")
+
+[node name="FallingArea" type="Area3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/FallingArea"]
+shape = SubResource("BoxShape3D_nmjyc")
+
+[node name="PeerPlayers" type="Node3D" parent="Level"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+amount = 64
+lifetime = 20.0
+visibility_aabb = AABB(-15, -20, -15, 30, 20, 30)
+process_material = SubResource("ParticleProcessMaterial_8tqeh")
+draw_pass_1 = SubResource("QuadMesh_0umau")
+
+[node name="DisconnectTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="LateRegisterTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true

@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://qfp5d0s2gnu2"]
+
+[ext_resource type="Texture2D" uid="uid://c51hqi8ojpql4" path="res://textures/dust.png" id="1_xbg1u"]
+
+[resource]
+transparency = 1
+albedo_color = Color(0.942446, 0.952941, 0.966637, 0.784314)
+albedo_texture = ExtResource("1_xbg1u")
+billboard_mode = 1

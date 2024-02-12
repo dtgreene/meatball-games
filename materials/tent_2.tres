@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bmgsqaims3dds"]
+
+[ext_resource type="Texture2D" uid="uid://0ep7ewa5yp08" path="res://textures/wrinkle.png" id="1_8eyfn"]
+[ext_resource type="Texture2D" uid="uid://iljdg4icgjel" path="res://textures/wrinkle_normal.png" id="2_x00tv"]
+
+[resource]
+albedo_color = Color(0.490196, 0.513726, 0.65098, 1)
+albedo_texture = ExtResource("1_8eyfn")
+roughness = 0.6
+normal_enabled = true
+normal_scale = 0.5
+normal_texture = ExtResource("2_x00tv")
+uv1_scale = Vector3(4, 4, 4)

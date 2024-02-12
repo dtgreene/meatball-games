@@ -1,0 +1,44 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=9 format=3 uid="uid://opx0etkln4et"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_034a3"]
+animation = &"Falling"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dqhse"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAdd3" id="AnimationNodeAdd3_7c116"]
+filters = ["Armature/Skeleton3D:Head", "Armature/Skeleton3D:Neck"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_asmy4"]
+animation = &"LookDown"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s0mle"]
+animation = &"LookUp"
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_pxgfq"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_odadq"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_80wco"]
+
+[resource]
+resource_local_to_scene = true
+nodes/Animation/node = SubResource("AnimationNodeAnimation_034a3")
+nodes/Animation/position = Vector2(240, 320)
+nodes/IdleAnimation/node = SubResource("AnimationNodeAnimation_dqhse")
+nodes/IdleAnimation/position = Vector2(240, 180)
+nodes/LookAdd/node = SubResource("AnimationNodeAdd3_7c116")
+nodes/LookAdd/position = Vector2(820, 40)
+nodes/LookDownAnimation/node = SubResource("AnimationNodeAnimation_asmy4")
+nodes/LookDownAnimation/position = Vector2(560, -60)
+nodes/LookUpAnimation/node = SubResource("AnimationNodeAnimation_s0mle")
+nodes/LookUpAnimation/position = Vector2(580, 300)
+nodes/MainBlend/node = SubResource("AnimationNodeBlend3_pxgfq")
+nodes/MainBlend/position = Vector2(580, 100)
+nodes/WalkAnimation/node = SubResource("AnimationNodeAnimation_odadq")
+nodes/WalkAnimation/position = Vector2(120, 20)
+nodes/WalkTimeScale/node = SubResource("AnimationNodeTimeScale_80wco")
+nodes/WalkTimeScale/position = Vector2(340, 40)
+nodes/output/position = Vector2(1060, 180)
+node_connections = [&"LookAdd", 0, &"LookDownAnimation", &"LookAdd", 1, &"MainBlend", &"LookAdd", 2, &"LookUpAnimation", &"MainBlend", 0, &"WalkTimeScale", &"MainBlend", 1, &"IdleAnimation", &"MainBlend", 2, &"Animation", &"WalkTimeScale", 0, &"WalkAnimation", &"output", 0, &"LookAdd"]
