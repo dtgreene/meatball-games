@@ -44,6 +44,9 @@ collision_mask = 4
 wait_time = 2.0
 one_shot = true
 
+[node name="HideLoadingTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="DeathPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_q7jej")
 volume_db = -5.0

@@ -38,11 +38,13 @@ var mouse_sensitivity = 1.0
 @onready var death_player = $DeathPlayer
 @onready var falling_player = $FallingPlayer
 @onready var player_character = $Smoothing/PlayerCharacter
+@onready var hide_loading_timer = $HideLoadingTimer
 
 func _ready():
 	add_to_group("players")
 	
 	respawn_timer.timeout.connect(_handle_respawn_timeout)
+	hide_loading_timer.timeout.connect(_handle_hide_loading_timeout)
 	
 	gui_game.mouse_sensitivity_changed.connect(_handle_mouse_sensitivity_changed)
 	
@@ -136,10 +138,13 @@ func _respawn():
 		camera.current = true
 	
 	if loading_text.visible:
-		loading_text.call_deferred("hide")
+		hide_loading_timer.start()
 
 func _handle_respawn_timeout():
 	_respawn()
+
+func _handle_hide_loading_timeout():
+	loading_text.hide()
 
 func falling():
 	if randf() > scream_threshold:

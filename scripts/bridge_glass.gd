@@ -17,7 +17,7 @@ signal broken(index)
 
 func _on_area_3d_body_entered(body):
 	if not holds_weight and not is_broken:
-		_break.rpc()
+		break_glass.rpc()
 
 func setup(_glass_index, _holds_weight, _is_broken):
 	glass_index = _glass_index
@@ -39,7 +39,7 @@ func setup(_glass_index, _holds_weight, _is_broken):
 	audio_stream.stream = load("res://sounds/glass_break_" + str(sound_index) + ".wav")
 
 @rpc("any_peer", "call_local", "reliable")
-func _break():
+func break_glass():
 	if not is_broken:
 		is_broken = true
 		mesh_instance.mesh = glass_broken_mesh

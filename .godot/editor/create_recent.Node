@@ -1,3 +1,4 @@
+Timer
 Smoothing
 GPUParticles3D
 TextureRect
@@ -9,7 +10,5 @@ SpotLight3D
 VBoxContainer
 MarginContainer
 Label
-Timer
 AudioStreamPlayer
 CheckButton
-HBoxContainer

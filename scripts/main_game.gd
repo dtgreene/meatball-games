@@ -14,7 +14,6 @@ const glass_spacing = glass_length / glass_rows
 ]
 @onready var level = $Level
 @onready var disconnect_timer = $DisconnectTimer
-@onready var late_register_timer = $LateRegisterTimer
 @onready var gui_game = $GUIGame
 @onready var peer_players = $Level/PeerPlayers
 
@@ -31,7 +30,6 @@ func _ready():
 	MPlay.mplay_player_register.connect(_handle_player_register)
 	
 	disconnect_timer.timeout.connect(_handle_disconnect_timeout)
-	late_register_timer.timeout.connect(_handle_late_register_timeout)
 	
 	var kill_area = $Level/KillArea
 	var win_area = $Level/WinArea
@@ -48,6 +46,7 @@ func _ready():
 	else:
 		# Disconnect if the setup message is not received after some time
 		disconnect_timer.start()
+		request_setup.rpc_id(1)
 	
 	GlobalSounds.play_game_music()
 
@@ -112,11 +111,6 @@ func _handle_disconnect_timeout():
 	Globals.start_message = "Setup timeout"
 	_leave_game()
 
-func _handle_late_register_timeout():
-	for id in MPlay.players:
-		if not peer_nodes.has(id) and id != MPlay.unique_id:
-			call_deferred("_handle_player_register", id, MPlay.players[id])
-
 func _handle_server_disconnected():
 	Globals.start_message = "Server disconnected"
 	_leave_game()
@@ -144,8 +138,6 @@ func _handle_player_register(id, player_info):
 	
 	# Send the initial state to the new player
 	if multiplayer.is_server():
-		setup_game.rpc_id(id, state, _get_initial_peer_data())
-		
 		gui_game.print_message.rpc(
 			"[SERVER]: %s joined" % player_info.name
 		)
@@ -184,6 +176,15 @@ func _get_initial_state():
 
 func _handle_glass_broken(index):
 	state.glass_broken[index] = 0x1
+
+@rpc("reliable", "any_peer")
+func request_setup():
+	var peer_id = multiplayer.get_remote_sender_id()
+	
+	if multiplayer.is_server():
+		setup_game.rpc_id(peer_id, state, _get_initial_peer_data())
+	else:
+		print_debug("Non-server received setup request: %s" % peer_id)
 
 @rpc("reliable")
 func setup_game(server_state, peer_data = null):
