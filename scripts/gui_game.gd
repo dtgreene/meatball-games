@@ -20,6 +20,8 @@ var is_paused = false
 var server_messages = []
 
 signal mouse_sensitivity_changed(value)
+signal game_paused()
+signal game_resumed()
 
 func _ready():
 	#Engine.max_fps = 60
@@ -111,7 +113,7 @@ func _handle_messages_timeout():
 func _handle_winner_timeout():
 	winner_text.hide()
 
-func _handle_player_disconnected(id, player_info):
+func _handle_player_disconnected(id, _player_info):
 	var label = player_list.get_node_or_null(str(id))
 	
 	if label:
@@ -131,11 +133,13 @@ func _pause_game():
 	is_paused = true
 	pause_menu.show()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	game_paused.emit()
 
 func _resume_game():
 	is_paused = false
 	pause_menu.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	game_resumed.emit()
 
 func show_winner_text(player_name):
 	var winner_player_name = $WinnerText/VBoxContainer/PlayerName

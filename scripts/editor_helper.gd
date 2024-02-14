@@ -12,6 +12,14 @@ func _prepare_player_character_scene():
 	glb_instance.name = "PlayerCharacter"
 	glb_instance.script = load("res://scripts/player_character.gd")
 	
+	#var head_attachment = BoneAttachment3D.new()
+	#head_attachment.bone_name = "Head"
+	#head_attachment.name = "HeadAttachment"
+	#
+	#var skeleton = glb_instance.get_node("Armature/Skeleton3D")
+	#skeleton.add_child(head_attachment)
+	#head_attachment.owner = glb_instance
+	
 	var animation_tree = AnimationTree.new()
 	animation_tree.name = "AnimationTree"
 	

@@ -1,19 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://bhcsdhnchgkda"]
+[gd_scene load_steps=10 format=3 uid="uid://bhcsdhnchgkda"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_idlhb"]
 [ext_resource type="AudioStream" uid="uid://fbyk4kh3w14s" path="res://sounds/death.wav" id="2_q7jej"]
 [ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_smjh2"]
-[ext_resource type="PackedScene" uid="uid://cgcspg03hlc4f" path="res://scenes/player_character.tscn" id="2_ytg7u"]
+[ext_resource type="PackedScene" uid="uid://cbth5jc1xvb4c" path="res://scenes/player_character.tscn" id="2_ytg7u"]
 [ext_resource type="AudioStream" uid="uid://bp586s7o8304b" path="res://sounds/wilhelm.wav" id="4_004jf"]
+[ext_resource type="AudioStream" uid="uid://dwjdq1kiewldn" path="res://sounds/push.mp3" id="6_wbd7u"]
+[ext_resource type="AudioStream" uid="uid://bwmhp3a3j12di" path="res://sounds/push_impact.mp3" id="7_pguqq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s2yl0"]
 radius = 0.3
 height = 1.8
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5bo8i"]
+radius = 0.3
+height = 1.8
 
 [node name="Player" type="CharacterBody3D"]
-collision_mask = 13
+collision_mask = 29
 script = ExtResource("1_idlhb")
 
 [node name="Smoothing" type="Node3D" parent="."]
@@ -23,7 +27,7 @@ script = ExtResource("2_smjh2")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.9, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Smoothing"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_s2yl0")
@@ -40,11 +44,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
 target_position = Vector3(0, -0.2, 0)
 collision_mask = 4
 
+[node name="PushRayCast" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -0.8)
+collision_mask = 16
+
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
 [node name="HideLoadingTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="UpdateOverrideTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="PushResetTimer" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[node name="PushTimer" type="Timer" parent="."]
+wait_time = 0.3
 one_shot = true
 
 [node name="DeathPlayer" type="AudioStreamPlayer" parent="."]
@@ -54,3 +75,11 @@ volume_db = -5.0
 [node name="FallingPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_004jf")
 volume_db = -20.0
+
+[node name="PushPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_wbd7u")
+volume_db = -10.0
+
+[node name="PushImpactPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_pguqq")
+volume_db = -10.0

@@ -1,7 +1,13 @@
+res://sounds
+res://scripts
+C:/Users/Dylan/Documents/Godot/windows
+C:/Users/Dylan/Documents/Godot/macOS
+C:/Users/Dylan/Documents/Godot/4.2-stable/projects/meatball-games/export/linux_64
+C:/Users/Dylan/Documents/Godot/4.2-stable/projects/meatball-games/export/macOS
+C:/Users/Dylan/.cargo/bin
 res://materials
 res://textures
 res://fonts
-res://sounds
 res://scenes/auto
 res://animation_trees
 C:/Users/Dylan/Documents/Godot/4.2-stable/projects/meatball-games/export
@@ -10,10 +16,7 @@ res://scenes
 res://scripts/auto
 res://scenes/screens
 res://scripts/screens
-res://scripts
 res://scripts/buttons
 res://themes
 C:/Users/Dylan/Documents/Godot/4.2-stable/fonts
 C:/Users/Dylan/Documents/Godot/4.2-stable
-res://meshes
-res://shaders

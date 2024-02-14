@@ -15,7 +15,7 @@ const glass_pieces_scene = preload("res://scenes/bridge_glass_pieces.tscn")
 
 signal broken(index)
 
-func _on_area_3d_body_entered(body):
+func _on_area_3d_body_entered(_body):
 	if not holds_weight and not is_broken:
 		break_glass.rpc()
 

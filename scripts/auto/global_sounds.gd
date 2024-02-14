@@ -21,7 +21,10 @@ func play_click():
 	click_player.play()
 
 func set_music_volume(value):
-	music_player.volume_db = remap(value, 0.0, 1.0, -32, -10)
+	if value == 0:
+		music_player.volume_db = -80.0
+	else:
+		music_player.volume_db = remap(value, 0.0, 1.0, -32.0, -10.0)
 
 func play_menu_music():
 	music_player.stream = menu_music

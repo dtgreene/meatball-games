@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctxwkpk2fmyoq"]
+[gd_scene load_steps=6 format=3 uid="uid://ctxwkpk2fmyoq"]
 
 [ext_resource type="Script" path="res://scripts/screens/start_screen.gd" id="1_v1jmd"]
+[ext_resource type="Script" path="res://scripts/title_text.gd" id="2_euln6"]
 [ext_resource type="FontFile" uid="uid://my80xfg5t7tb" path="res://fonts/ProtestStrike-Regular.ttf" id="2_f7qn5"]
 [ext_resource type="Script" path="res://scripts/buttons/3d_button.gd" id="2_wnovj"]
 [ext_resource type="Script" path="res://scripts/buttons/plain_button.gd" id="3_jh7r5"]
@@ -30,7 +31,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
+[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_euln6")
+
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_top = 64
 theme_override_constants/margin_bottom = 64
