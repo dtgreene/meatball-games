@@ -18,11 +18,12 @@ res://materials/color_lights_3.tres
 res://materials/color_lights_4.tres
 res://materials/carpet.tres
 res://materials/dust.tres
+res://scripts/player.gd
+res://scripts/main_game.gd
+res://scenes/main/main_game.tscn
+res://scripts/gui_game.gd
 res://scenes/peer_player.tscn
 res://scenes/screens/start_screen.tscn
-res://scenes/main/main_game.tscn
 res://scenes/bridge_glass.tscn
 res://scenes/main/main_start.tscn
 res://scenes/player_character.tscn
-res://scripts/player.gd
-res://scripts/editor_helper.gd

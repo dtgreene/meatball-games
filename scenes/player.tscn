@@ -52,10 +52,6 @@ collision_mask = 16
 wait_time = 2.0
 one_shot = true
 
-[node name="HideLoadingTimer" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
 [node name="UpdateOverrideTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true

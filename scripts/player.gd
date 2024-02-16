@@ -39,23 +39,22 @@ var disable_controls = false
 @onready var push_ray_cast = $PushRayCast
 @onready var respawn_timer = $RespawnTimer
 @onready var main_game = get_node("/root/MainGame")
-@onready var loading_text = get_node("/root/MainGame/GUIGame/LoadingText")
 @onready var gui_game = get_node("/root/MainGame/GUIGame")
 @onready var death_player = $DeathPlayer
 @onready var falling_player = $FallingPlayer
 @onready var push_player = $PushPlayer
 @onready var push_impact_player = $PushImpactPlayer
 @onready var player_character = $Smoothing/PlayerCharacter
-@onready var hide_loading_timer = $HideLoadingTimer
 @onready var update_override_timer = $UpdateOverrideTimer
 @onready var push_reset_timer = $PushResetTimer
 @onready var push_timer = $PushTimer
+
+signal player_spawned()
 
 func _ready():
 	add_to_group("players")
 	
 	respawn_timer.timeout.connect(_handle_respawn_timeout)
-	hide_loading_timer.timeout.connect(_handle_hide_loading_timeout)
 	update_override_timer.timeout.connect(_handle_update_override_timeout)
 	update_override_timer.start()
 	push_reset_timer.timeout.connect(_handle_push_reset_timeout)
@@ -156,9 +155,6 @@ func _physics_process(delta):
 func _handle_respawn_timeout():
 	respawn()
 
-func _handle_hide_loading_timeout():
-	loading_text.hide()
-
 func _handle_update_override_timeout():
 	update_override = false
 
@@ -200,8 +196,7 @@ func respawn():
 	if not camera.current:
 		camera.current = true
 	
-	if loading_text.visible:
-		hide_loading_timer.start()
+	player_spawned.emit()
 
 func play_push_impact():
 	push_impact_player.play()

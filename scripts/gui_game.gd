@@ -1,8 +1,5 @@
 extends Control
 
-const messages_show_time = 5
-const winner_text_show_time = 8
-
 @onready var pause_menu = $PauseMenu
 @onready var pause_menu_main = $PauseMenu/Main
 @onready var pause_menu_options = $PauseMenu/Options
@@ -15,6 +12,8 @@ const winner_text_show_time = 8
 @onready var winner_text = $WinnerText
 @onready var winner_timer = $WinnerText/WinnerTimer
 @onready var main_game = get_node("/root/MainGame")
+@onready var loading_text = $LoadingText
+@onready var loading_timer = $LoadingText/LoadingTimer
 
 var is_paused = false
 var server_messages = []
@@ -54,10 +53,8 @@ func _ready():
 	music_volume_slider.value = float(GlobalsConfig.get_data("music_volume"))
 	
 	messages_timer.timeout.connect(_handle_messages_timeout)
-	messages_timer.wait_time = messages_show_time
-	
 	winner_timer.timeout.connect(_handle_winner_timeout)
-	winner_timer.wait_time = winner_text_show_time
+	loading_timer.timeout.connect(_handle_loading_timeout)
 	
 	MPlay.mplay_peer_disconnected.connect(_handle_player_disconnected)
 	MPlay.mplay_player_register.connect(_handle_player_register)
@@ -76,6 +73,7 @@ func _handle_options_clicked():
 	pause_menu_options.show()
 
 func _handle_reset_clicked():
+	_resume_game()
 	main_game.reset_game.rpc()
 
 func _handle_leave_clicked():
@@ -113,6 +111,9 @@ func _handle_messages_timeout():
 func _handle_winner_timeout():
 	winner_text.hide()
 
+func _handle_loading_timeout():
+	loading_text.hide()
+
 func _handle_player_disconnected(id, _player_info):
 	var label = player_list.get_node_or_null(str(id))
 	
@@ -141,13 +142,6 @@ func _resume_game():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	game_resumed.emit()
 
-func show_winner_text(player_name):
-	var winner_player_name = $WinnerText/VBoxContainer/PlayerName
-	winner_player_name.text = player_name
-	
-	winner_text.show()
-	winner_timer.start()
-
 func _unhandled_input(event: InputEvent):
 	if event is InputEventMouseButton and not is_paused:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -169,6 +163,19 @@ func _process(_delta):
 
 func _combine_messages(result, message):
 	return result + "%s\n" % message
+
+func show_winner_text(player_name):
+	var winner_player_name = $WinnerText/VBoxContainer/PlayerName
+	winner_player_name.text = player_name
+	
+	winner_text.show()
+	winner_timer.start()
+
+func show_loading_text():
+	loading_text.show()
+
+func hide_loading_text():
+	loading_timer.start()
 
 @rpc("reliable", "call_local")
 func print_message(message):

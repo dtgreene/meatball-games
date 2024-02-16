@@ -10,11 +10,13 @@ const spawn_origin = Vector3(-20, 1.0, 0.0)
 
 @onready var level = $Level
 @onready var disconnect_timer = $DisconnectTimer
-@onready var late_register_timer = $LateRegisterTimer
 @onready var gui_game = $GUIGame
 @onready var peer_players = $Level/PeerPlayers
 
-var state = _get_initial_state()
+var state = {
+	glass_weights = [],
+	glass_broken = []
+}
 var peer_nodes = {}
 var game_over = false
 
@@ -27,7 +29,6 @@ func _ready():
 	MPlay.mplay_player_register.connect(_handle_player_register)
 	
 	disconnect_timer.timeout.connect(_handle_disconnect_timeout)
-	late_register_timer.timeout.connect(_handle_late_register_timeout)
 	
 	var kill_area = $Level/KillArea
 	var win_area = $Level/WinArea
@@ -36,52 +37,52 @@ func _ready():
 	kill_area.body_shape_entered.connect(_handle_kill_area_entered)
 	win_area.body_shape_entered.connect(_handle_win_area_entered)
 	falling_area.body_shape_entered.connect(_handle_fall_area_entered)
-
-	# Create the initial level state
-	if multiplayer.is_server():
-		# Apply the initial state locally for the host
-		setup_game(state)
-	else:
-		# Disconnect if the setup message is not received after some time
-		disconnect_timer.start()
-		request_setup.rpc_id(1)
 	
-	# Normally we receive player registration shortly after they connect.
-	# However this only happens once. So if the scene is reloaded, we need to manually re-register existing players.
-	late_register_timer.start()
+	reset_game()
 	
 	GlobalSounds.play_game_music()
+
+func _handle_player_spawned():
+	gui_game.hide_loading_text()
 
 func _create_glass(weights, broken):
 	# Create the glass
 	var glass_parent = $Level/BridgeGlass
 	
-	for child in glass_parent.get_children():
-		child.queue_free()
-	
 	var scene = null
 	var glass_index = -1
+	var glass_name = ""
 	
 	for i in glass_rows:
 		var holds_weight = bool(weights[i])
 		
 		# Add side 1
 		glass_index = i * 2
-		scene = glass_scene.instantiate()
-		scene.name = "BridgeGlass%s" % glass_index
-		scene.position = Vector3(-glass_length * 0.5 + glass_spacing + i * glass_spacing, -0.21, -1)
+		glass_name = "BridgeGlass%s" % glass_index
+		scene = glass_parent.get_node_or_null(glass_name)
+		
+		if scene == null:
+			scene = glass_scene.instantiate()
+			scene.name = glass_name
+			scene.position = Vector3(-glass_length * 0.5 + glass_spacing + i * glass_spacing, -0.21, -1)
+			scene.broken.connect(_handle_glass_broken)
+			glass_parent.add_child(scene)
+		
 		scene.call_deferred("setup", glass_index, holds_weight, bool(broken[glass_index]))
-		glass_parent.add_child(scene)
-		scene.broken.connect(_handle_glass_broken)
 		
 		# Add side 2
 		glass_index = i * 2 + 1
-		scene = glass_scene.instantiate()
-		scene.name = "BridgeGlass%s" % glass_index
-		scene.position = Vector3(-glass_length * 0.5 + glass_spacing + i * glass_spacing, -0.21, 1)
+		glass_name = "BridgeGlass%s" % glass_index
+		scene = glass_parent.get_node_or_null(glass_name)
+		
+		if scene == null:
+			scene = glass_scene.instantiate()
+			scene.name = glass_name
+			scene.position = Vector3(-glass_length * 0.5 + glass_spacing + i * glass_spacing, -0.21, 1)
+			scene.broken.connect(_handle_glass_broken)
+			glass_parent.add_child(scene)
+		
 		scene.call_deferred("setup", glass_index, not holds_weight, bool(broken[glass_index]))
-		glass_parent.add_child(scene)
-		scene.broken.connect(_handle_glass_broken)
 
 func _leave_game():
 	MPlay.peer_reset()
@@ -116,11 +117,6 @@ func _get_body_shape_parent(body, body_shape_index):
 func _handle_disconnect_timeout():
 	Globals.start_message = "Setup timeout"
 	_leave_game()
-
-func _handle_late_register_timeout():
-	for id in MPlay.players:
-		if not peer_nodes.has(id) and id != MPlay.unique_id:
-			_handle_player_register(id, MPlay.players[id])
 
 func _handle_server_disconnected():
 	Globals.start_message = "Server disconnected"
@@ -174,7 +170,19 @@ func _get_initial_state():
 	}
 
 func _handle_glass_broken(index):
-	state.glass_broken[index] = 0x1
+	if multiplayer.is_server():
+		state.glass_broken[index] = 0x1
+
+func _create_player():
+	var our_player = get_node_or_null("/root/MainGame/Level/Player")
+	
+	if our_player == null:
+		our_player = player_scene.instantiate()
+		our_player.player_spawned.connect(_handle_player_spawned)
+		
+		level.add_child(our_player)
+	
+	return our_player
 
 @rpc("reliable", "any_peer")
 func request_setup():
@@ -190,13 +198,7 @@ func setup_game(server_state):
 	if not disconnect_timer.is_stopped():
 		disconnect_timer.stop()
 	
-	# Spawn our player
-	var our_player = get_node_or_null("/root/MainGame/Level/Player")
-	
-	if our_player == null:
-		our_player = player_scene.instantiate()
-		level.add_child(our_player)
-	
+	_create_player()
 	_create_glass(server_state.glass_weights, server_state.glass_broken)
 
 @rpc("any_peer")
@@ -240,8 +242,15 @@ func peer_died():
 
 @rpc("reliable", "call_local")
 func reset_game():
+	gui_game.show_loading_text()
+	
 	if multiplayer.is_server():
+		state = _get_initial_state()
 		setup_game(state)
+	else:
+		# Disconnect if the setup message is not received from the server after some time
+		disconnect_timer.start()
+		request_setup.rpc_id(1)
 	
 	var our_player = get_node_or_null("/root/MainGame/Level/Player")
 	

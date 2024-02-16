@@ -127,6 +127,8 @@ layout_mode = 2
 horizontal_alignment = 1
 
 [node name="WinnerTimer" type="Timer" parent="GUIGame/WinnerText"]
+wait_time = 8.0
+one_shot = true
 
 [node name="Scoreboard" type="Control" parent="GUIGame"]
 visible = false
@@ -200,6 +202,9 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 text = "LOADING..."
 horizontal_alignment = 1
+
+[node name="LoadingTimer" type="Timer" parent="GUIGame/LoadingText"]
+one_shot = true
 
 [node name="PauseMenu" type="Control" parent="GUIGame"]
 visible = false
@@ -484,5 +489,3 @@ draw_pass_1 = SubResource("QuadMesh_0umau")
 [node name="DisconnectTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
-
-[node name="LateRegisterTimer" type="Timer" parent="."]

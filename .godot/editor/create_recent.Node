@@ -1,10 +1,10 @@
+Timer
 Camera3D
 CollisionShape3D
 BoneAttachment3D
 Control
 AudioStreamPlayer3D
 AudioStreamPlayer
-Timer
 RayCast3D
 Node3D
 StaticBody3D
