@@ -6,7 +6,8 @@ const default_data = {
 	host_max_players = "8",
 	join_ip = "127.0.0.1",
 	join_port = "3074",
-	mouse_sensitivity = "1.0",
+	mouse_x_sensitivity = "1.0",
+	mouse_y_sensitivity = "1.0",
 	music_volume = "1.0",
 	fullscreen = "true"
 }

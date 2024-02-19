@@ -7,7 +7,8 @@ extends Control
 @onready var messages_timer = $ServerMessages/MessagesTimer
 @onready var scoreboard = $Scoreboard
 @onready var player_list = $Scoreboard/VBoxContainer/PlayerList
-@onready var mouse_sensitivity_slider = $PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MouseSensitivity/HSlider
+@onready var mouse_x_sensitivity_slider = $PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MouseXSensitivity/HSlider
+@onready var mouse_y_sensitivity_slider = $PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MouseYSensitivity/HSlider
 @onready var music_volume_slider = $PauseMenu/Options/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume/HSlider
 @onready var winner_text = $WinnerText
 @onready var winner_timer = $WinnerText/WinnerTimer
@@ -18,7 +19,7 @@ extends Control
 var is_paused = false
 var server_messages = []
 
-signal mouse_sensitivity_changed(value)
+signal mouse_sensitivity_changed(axis, value)
 signal game_paused()
 signal game_resumed()
 
@@ -47,8 +48,10 @@ func _ready():
 		reset_button.queue_free()
 	
 	# Initialize global configs
-	mouse_sensitivity_slider.drag_ended.connect(_handle_mouse_sensitivity_drag)
-	mouse_sensitivity_slider.value = float(GlobalsConfig.get_data("mouse_sensitivity"))
+	mouse_x_sensitivity_slider.drag_ended.connect(_handle_mouse_x_sensitivity_drag)
+	mouse_x_sensitivity_slider.value = float(GlobalsConfig.get_data("mouse_x_sensitivity"))
+	mouse_y_sensitivity_slider.drag_ended.connect(_handle_mouse_y_sensitivity_drag)
+	mouse_y_sensitivity_slider.value = float(GlobalsConfig.get_data("mouse_y_sensitivity"))
 	music_volume_slider.drag_ended.connect(_handle_music_voluem_drag)
 	music_volume_slider.value = float(GlobalsConfig.get_data("music_volume"))
 	
@@ -95,10 +98,15 @@ func _handle_fullscreen_toggled(value):
 	
 	GlobalsConfig.set_data("fullscreen", str(value))
 
-func _handle_mouse_sensitivity_drag(value_changed):
+func _handle_mouse_x_sensitivity_drag(value_changed):
 	if value_changed:
-		mouse_sensitivity_changed.emit(mouse_sensitivity_slider.value)
-		GlobalsConfig.set_data("mouse_sensitivity", str(mouse_sensitivity_slider.value))
+		mouse_sensitivity_changed.emit(0, mouse_x_sensitivity_slider.value)
+		GlobalsConfig.set_data("mouse_x_sensitivity", str(mouse_x_sensitivity_slider.value))
+
+func _handle_mouse_y_sensitivity_drag(value_changed):
+	if value_changed:
+		mouse_sensitivity_changed.emit(1, mouse_y_sensitivity_slider.value)
+		GlobalsConfig.set_data("mouse_y_sensitivity", str(mouse_y_sensitivity_slider.value))
 
 func _handle_music_voluem_drag(value_changed):
 	if value_changed:

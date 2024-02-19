@@ -4,8 +4,9 @@ const speed = 4.0
 const acceleration = 8.0
 const jump_velocity = 3.0
 const gravity = 9.8
-const mouse_multiplier = 0.01
-const look_speed = 12.0
+# Use float() since high precision is needed
+const mouse_scale = float(0.01)
+const look_speed = 24.0
 const min_x_rotation = deg_to_rad(-70)
 const max_x_rotation = deg_to_rad(60)
 const initial_rotation_y = -PI * 0.5
@@ -14,8 +15,6 @@ const position_update_min = 0.02
 const rotation_update_min = 0.1
 const animation_walk_threshold = 0.01
 const animation_walk_factor = 16.0
-# Use float() since high precision is needed
-const mouse_scale = float(0.01)
 const scream_threshold = 0.6
 const push_strength = 16.0
 
@@ -28,7 +27,8 @@ var prev_position = position
 var prev_rotation_x = 0.0
 var prev_rotation_y = 0.0
 var position_tick = 0
-var mouse_sensitivity = 1.0
+var mouse_x_sensitivity = 1.0
+var mouse_y_sensitivity = 1.0
 var update_override = true
 var can_push = true
 var mouse_just_pressed = false
@@ -36,7 +36,7 @@ var disable_controls = false
 
 @onready var camera = $Smoothing/Camera3D
 @onready var breakable_ray_cast = $BreakableRayCast
-@onready var push_ray_cast = $PushRayCast
+@onready var push_shape_cast = $PushShapeCast
 @onready var respawn_timer = $RespawnTimer
 @onready var main_game = get_node("/root/MainGame")
 @onready var gui_game = get_node("/root/MainGame/GUIGame")
@@ -64,25 +64,29 @@ func _ready():
 	gui_game.game_paused.connect(_handle_game_paused)
 	gui_game.game_resumed.connect(_handle_game_resumed)
 	
-	# Set the shadow setting
-	var player_mesh = $Smoothing/PlayerCharacter/Armature/Skeleton3D/Character
-	player_mesh.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	# Set the shadow setting for the head
+	var head_mesh = $Smoothing/PlayerCharacter/Armature/Skeleton3D/Head
+	head_mesh.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
 	
-	mouse_sensitivity = float(GlobalsConfig.get_data("mouse_sensitivity"))
+	mouse_x_sensitivity = float(GlobalsConfig.get_data("mouse_x_sensitivity"))
+	mouse_y_sensitivity = float(GlobalsConfig.get_data("mouse_y_sensitivity"))
 	
 	respawn()
 
 func _unhandled_input(event):
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
-			target_rotation_y = target_rotation_y - event.relative.x * mouse_sensitivity * mouse_scale
-			target_camera_rotation_x = target_camera_rotation_x - event.relative.y * mouse_sensitivity * mouse_scale
+			target_rotation_y = target_rotation_y - event.relative.x * mouse_x_sensitivity * mouse_scale
+			target_camera_rotation_x = target_camera_rotation_x - event.relative.y * mouse_y_sensitivity * mouse_scale
 			target_camera_rotation_x = clamp(target_camera_rotation_x, min_x_rotation, max_x_rotation)
 		elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 			mouse_just_pressed = true
 
-func _handle_mouse_sensitivity_changed(value):
-	mouse_sensitivity = value
+func _handle_mouse_sensitivity_changed(axis, value):
+	if axis == 0:
+		mouse_x_sensitivity = value
+	else:
+		mouse_y_sensitivity = value
 
 func _handle_game_paused():
 	disable_controls = true
@@ -164,14 +168,14 @@ func _handle_push_reset_timeout():
 func _handle_push_timeout():
 	if is_alive:
 		push_player.play()
-		push_ray_cast.force_raycast_update()
+		push_shape_cast.force_shapecast_update()
 		
-		if push_ray_cast.is_colliding():
-			var collider = push_ray_cast.get_collider()
+		if push_shape_cast.is_colliding():
+			var collider = push_shape_cast.get_collider(0)
 			var collider_parent = collider.get_parent()
 			
 			if collider_parent.is_in_group("peer_players"):
-				main_game.peer_push_peer.rpc(collider_parent.unique_id)
+				main_game.peer_push_impact.rpc(collider_parent.unique_id)
 				push_impact_player.play()
 
 func respawn():
@@ -198,10 +202,8 @@ func respawn():
 	
 	player_spawned.emit()
 
-func play_push_impact():
-	push_impact_player.play()
-
 func get_pushed(from_position):
+	push_impact_player.play()
 	var push_direction = (position - from_position).normalized()
 	velocity += push_direction * push_strength
 

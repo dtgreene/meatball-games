@@ -12,6 +12,7 @@ const max_x_rotation = deg_to_rad(80)
 @onready var death_player = $DeathPlayer
 @onready var falling_player = $FallingPlayer
 @onready var push_player = $PushPlayer
+@onready var push_impact_player = $PushImpactPlayer
 @onready var player_character = $PlayerCharacter
 @onready var floor_ray_cast = $FloorRayCast
 
@@ -79,3 +80,6 @@ func play_death():
 
 func play_fall():
 	falling_player.play()
+
+func play_push_impact():
+	push_impact_player.play()

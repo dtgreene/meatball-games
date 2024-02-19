@@ -1,7 +1,8 @@
-Timer
 Camera3D
-CollisionShape3D
 BoneAttachment3D
+ShapeCast3D
+Timer
+CollisionShape3D
 Control
 AudioStreamPlayer3D
 AudioStreamPlayer
@@ -11,4 +12,3 @@ StaticBody3D
 Smoothing
 GPUParticles3D
 TextureRect
-OmniLight3D

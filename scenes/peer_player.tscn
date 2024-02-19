@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://d0y8ehpry4avg"]
 
 [ext_resource type="Script" path="res://scripts/peer_player.gd" id="1_r68sr"]
-[ext_resource type="PackedScene" uid="uid://cbth5jc1xvb4c" path="res://scenes/player_character.tscn" id="2_bcvwe"]
 [ext_resource type="AudioStream" uid="uid://fbyk4kh3w14s" path="res://sounds/death.wav" id="3_71imt"]
 [ext_resource type="AudioStream" uid="uid://bp586s7o8304b" path="res://sounds/wilhelm.wav" id="4_sftqo"]
 [ext_resource type="AudioStream" uid="uid://dwjdq1kiewldn" path="res://sounds/push.mp3" id="5_dtacv"]
+[ext_resource type="AudioStream" uid="uid://bwmhp3a3j12di" path="res://sounds/push_impact.mp3" id="6_0lpp0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_llxr3"]
 radius = 0.2
@@ -16,9 +16,6 @@ font_weight = 500
 [node name="PeerPlayer" type="Node3D"]
 visible = false
 script = ExtResource("1_r68sr")
-
-[node name="PlayerCharacter" parent="." instance=ExtResource("2_bcvwe")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.9, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 16
@@ -47,4 +44,8 @@ volume_db = -20.0
 
 [node name="PushPlayer" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("5_dtacv")
+volume_db = -10.0
+
+[node name="PushImpactPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_0lpp0")
 volume_db = -10.0

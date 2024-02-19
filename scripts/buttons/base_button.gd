@@ -64,7 +64,7 @@ func _notification(what):
 			is_focused = false
 
 func _button_up():
-	emit_signal("button_up")
+	button_up.emit()
 	GlobalSounds.play_click()
 
 func _process(delta):

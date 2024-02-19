@@ -223,15 +223,15 @@ func peer_push():
 		peer_nodes[peer_id].push()
 
 @rpc("any_peer")
-func peer_push_peer(id):
+func peer_push_impact(id):
 	var peer_id = multiplayer.get_remote_sender_id()
 	var our_player = get_node_or_null("/root/MainGame/Level/Player")
-	
-	if our_player != null:
-		our_player.play_push_impact()
-		
-		if MPlay.unique_id == id and peer_nodes.has(peer_id):
+
+	if MPlay.unique_id == id:
+		if our_player != null and peer_nodes.has(peer_id):
 			our_player.get_pushed(peer_nodes[peer_id].position)
+	elif peer_nodes.has(id):
+		peer_nodes[id].play_push_impact()
 
 @rpc("any_peer", "reliable")
 func peer_died():
@@ -242,6 +242,7 @@ func peer_died():
 
 @rpc("reliable", "call_local")
 func reset_game():
+	game_over = false
 	gui_game.show_loading_text()
 	
 	if multiplayer.is_server():
